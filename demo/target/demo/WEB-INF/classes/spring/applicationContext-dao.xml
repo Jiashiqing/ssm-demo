@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+	http://www.springframework.org/schema/mvc
+	http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+	http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/context/spring-context-3.2.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+	http://www.springframework.org/schema/tx 
+	http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
+
+	<!-- 加载配置文件 -->
+	<context:property-placeholder location="classpath:db.properties" />
+
+	<!-- 配置数据源，使用dbcp -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driver}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<!-- 连接池启动时的初始值 -->
+		<property name="initialSize" value="1" />
+		<!-- 连接池的最大值 -->
+		<property name="maxActive" value="20" />
+		<!-- 最大空闲值.当经过一个高峰时间后，连接池可以慢慢将已经用不到的连接慢慢释放一部分，一直减少到maxIdle为止 -->
+		<property name="maxIdle" value="20" />
+		<!-- 最小空闲值.当空闲的连接数少于阀值时，连接池就会预申请去一些连接，以免洪峰来时来不及申请 -->
+		<property name="minIdle" value="1" />
+	</bean>
+
+	<!-- 配置会话工厂sqlSessionFactory -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- 设置数据源 -->
+		<property name="dataSource" ref="dataSource" />
+		<!-- 加载mybatis的配置文件 -->
+		<!-- <property name="configLocation" value="classpath:mybatis/SqlMapConfig.xml" /> -->
+		<property name="mapperLocations" value="classpath:mapperxml/*.xml"/>
+	</bean>
+	
+	<!-- mapper批量扫描器，从mapper包中扫描出mapper接口，自动创建代理对象并且在spring容器中注册
+	遵循规范：需要将mapper接口类名和mapper.xml映射文件名称保持一致，且在同一个目录下。
+	自动扫描出来的mapper的bean的id为mapper类名（首字母小写）
+	 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<!-- 指定扫描的包名
+		如果扫描多个包，每个包中间使用半角逗号分隔 -->
+		<property name="basePackage" value="com.justin.ssm.mapper"/>
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+	</bean>
+	
+	<!-- 配置事务管理器 (注解方式)-->  
+    <!-- <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">  
+        <property name="dataSource" ref="dataSource" />
+    </bean>  
+    <tx:annotation-driven transaction-manager="transactionManager" />  -->
+    
+
+<!-- 	
+	配置映射工厂bean
+  	<bean id="itemsMapperCustom" class="org.mybatis.spring.mapper.MapperFactoryBean">
+  		<property name="mapperInterface"   value="com.justin.ssm.mapper.ItemsMapperCustom"/>
+  		<property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+  	</bean>
+	
+	注入itemsMapperCustom
+	<bean id="itemsService" class="com.justin.ssm.service.impl.ItemsServiceImpl">
+        <property name="itemsMapperCustom" ref="itemsMapperCustom" />
+    </bean>
+    
+	注入itemsService
+	<bean id="itemsController" class="com.justin.ssm.controller.ItemsController">
+        <property name="itemsService" ref="itemsService" />
+    </bean>
+	 -->
+</beans>	
+	
+	
+	
+	
+	
+	
