@@ -24,6 +24,7 @@
 	</bean>
 	<!-- 元注释声明式事务 -->
 	<tx:annotation-driven transaction-manager="transactionManager"/>
+
 	
 	<!-- 配置事务通知 -->
 	<tx:advice id="txAdvice" transaction-manager="transactionManager">
