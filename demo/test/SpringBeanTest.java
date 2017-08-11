@@ -1,10 +1,9 @@
 import com.justin.ssm.po.Animal;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import javax.annotation.Resource;
 
 /**
  * Created by jiashiqing on 17/6/3.
@@ -22,7 +21,7 @@ public class SpringBeanTest {
 //    @Resource(name = "person")
 //    private Person person;
 
-    @Resource(name = "animal")
+    @Autowired
     private Animal animal;
 
 //    @Test

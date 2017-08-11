@@ -18,7 +18,7 @@ public class Person implements
         BeanFactoryAware,           //获得BeanFactory对象
         ApplicationContextAware,    //获得ApplicationContext对象
         InitializingBean,           //在Bean的所有属性设置完后，并且在调用完上面接口的方法后，调用此接口的afterPropertiesSet方法
-        BeanPostProcessor,
+        BeanPostProcessor,          //如果我们需要在Spring容器完成Bean的实例化、配置和其他的初始化前后添加一些自己的逻辑处理，我们就可以定义一个或者多个BeanPostProcessor接口的实现，然后注册到容器中。
         DisposableBean              //当销毁Bean时，调用此接口的destroy方法
 {
     private String name;
@@ -46,31 +46,39 @@ public class Person implements
         System.out.println("setBeanName=" + s);
     }
 
-    // 4
+    //4
     @Override
-    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
-        System.out.println("setBeanFactory=" + beanFactory);
+    public void setBeanClassLoader(ClassLoader classLoader) {
+        System.out.println("setBeanClassLoader="+classLoader.getClass());
     }
 
     // 5
     @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        System.out.println("setApplicationContext" + applicationContext);
+    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+        System.out.println("setBeanFactory=" + beanFactory);
+        System.out.println("setBeanFactory=" + beanFactory.getBean("person",Person.class));
     }
 
     // 6
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        System.out.println("setApplicationContext=" + applicationContext);
+        System.out.println("setApplicationContext=" + applicationContext.getBean("person",Person.class));
+    }
+
+    // 7
     @Override
     public void afterPropertiesSet() throws Exception {
         System.out.println("afterPropertiesSet...");
     }
 
-    // 7
+    // 8
     public void myinit() {
         System.out.println("myinit...");
     }
 
 
-    // 8
+    // 9
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
         System.out.println("postProcessBeforeInitialization...,bean=" + bean + ",beanName=" + beanName);
@@ -110,8 +118,5 @@ public class Person implements
     }
 
 
-    @Override
-    public void setBeanClassLoader(ClassLoader classLoader) {
-        System.out.println("setBeanClassLoader"+classLoader);
-    }
+
 }
