@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns="http://www.baidu.com/cmz/schema/memcached" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.baidu.com/cmz/schema/memcached" elementFormDefault="qualified"
+	attributeFormDefault="unqualified">
+	<xsd:element name="annotation-driven">
+		<xsd:annotation>
+			<xsd:documentation>
+				<![CDATA[ memcached annotation tags]]>
+			</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+</xsd:schema>

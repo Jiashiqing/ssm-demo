@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:memcached="http://www.baidu.com/cmz/schema/memcached" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.baidu.com/cmz/schema/memcached http://www.baidu.com/cmz/schema/memcached/memcached.xsd">
+
+    <memcached:annotation-driven/>
+    <!--<memcached:student id="student" name="justin" age="22"/>-->
 
     <bean id="animal" class="com.justin.ssm.po.Animal">
-        <property name="age"  value="5"></property>
+        <property name="age" value="5"></property>
         <property name="name" value="猪"></property>
     </bean>
 
